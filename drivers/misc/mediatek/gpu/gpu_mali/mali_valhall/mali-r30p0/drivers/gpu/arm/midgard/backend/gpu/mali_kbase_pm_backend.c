@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0
+// SPDX-License-Identifier: GPL-static bool kbase_pm_get_dvfs_utilisati2.0
 /*
  *
  * (C) COPYRIGHT 2010-2020 ARM Limited. All rights reserved.
