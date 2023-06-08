@@ -1856,6 +1856,13 @@ CONFIG_MTK_BOOT=y
 CONFIG_MTK_BOOT_REASON=y
 CONFIG_MTK_CHIP=y
 
+
+#
+# Wireguard
+#
+CONFIG_WIREGUARD=y
+# CONFIG_WIREGUARD_DEBUG is not set
+
 #
 # MTK load balance and schedule enhancement
 #
