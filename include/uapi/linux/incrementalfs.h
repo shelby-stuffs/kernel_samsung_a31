@@ -127,13 +127,6 @@
 #define INCFS_IOC_SET_READ_TIMEOUTS \
 	_IOW(INCFS_IOCTL_BASE_CODE, 38, struct incfs_set_read_timeouts_args)
 
-/*
- * Get last read error
- * May only be called on .pending_reads file
- */
-#define INCFS_IOC_GET_LAST_READ_ERROR \
-	_IOW(INCFS_IOCTL_BASE_CODE, 39, struct incfs_get_last_read_error_args)
-
 /* ===== sysfs feature flags ===== */
 /*
  * Each flag is represented by a file in /sys/fs/incremental-fs/features
@@ -147,20 +140,9 @@
 #define INCFS_FEATURE_FLAG_COREFS "corefs"
 
 /*
- * zstd compression support
+ * report_uid mount option is supported
  */
-#define INCFS_FEATURE_FLAG_ZSTD "zstd"
-
-/*
- * v2 feature set support. Covers:
- *   INCFS_IOC_CREATE_MAPPED_FILE
- *   INCFS_IOC_GET_BLOCK_COUNT
- *   INCFS_IOC_GET_READ_TIMEOUTS/INCFS_IOC_SET_READ_TIMEOUTS
- *   .blocks_written status file
- *   .incomplete folder
- *   report_uid mount option
- */
-#define INCFS_FEATURE_FLAG_V2 "v2"
+#define INCFS_FEATURE_FLAG_REPORT_UID "report_uid"
 
 enum incfs_compression_alg {
 	COMPRESSION_NONE = 0,
@@ -500,24 +482,24 @@ struct incfs_per_uid_read_timeouts {
 	__u32 uid;
 
 	/*
-	 * Min time in microseconds to read any block. Note that this doesn't
-	 * apply to reads which are satisfied from the page cache.
+	 * Min time to read any block. Note that this doesn't apply to reads
+	 * which are satisfied from the page cache.
 	 */
-	__u32 min_time_us;
+	__u32 min_time_ms;
 
 	/*
-	 * Min time in microseconds to satisfy a pending read. Any pending read
-	 * which is filled before this time will be delayed so that the total
-	 * read time >= this value.
+	 * Min time to satisfy a pending read. Must be >= min_time_ms. Any
+	 * pending read which is filled before this time will be delayed so
+	 * that the total read time >= this value.
 	 */
-	__u32 min_pending_time_us;
+	__u32 min_pending_time_ms;
 
 	/*
-	 * Max time in microseconds to satisfy a pending read before the read
-	 * times out. If set to U32_MAX, defaults to mount options
-	 * read_timeout_ms * 1000. Must be >= min_pending_time_us
+	 * Max time to satisfy a pending read before the read times out.
+	 * If set to U32_MAX, defaults to mount options read_timeout_ms=
+	 * Must be >= min_pending_time_ms
 	 */
-	__u32 max_pending_time_us;
+	__u32 max_pending_time_ms;
 };
 
 /*
@@ -556,28 +538,5 @@ struct incfs_set_read_timeouts_args {
 	__u32 timeouts_array_size;
 };
 
-/*
- * Get last read error struct
- * Arguments for INCFS_IOC_GET_LAST_READ_ERROR
- */
-struct incfs_get_last_read_error_args {
-	/* File id of last file that had a read error */
-	incfs_uuid_t	file_id_out;
-
-	/* Time of last read error, in us, from CLOCK_MONOTONIC */
-	__u64	time_us_out;
-
-	/* Index of page that was being read at last read error */
-	__u32	page_out;
-
-	/* errno of last read error */
-	__u32	errno_out;
-
-	/* uid of last read error */
-	__u32	uid_out;
-
-	__u32	reserved1;
-	__u64	reserved2;
-};
 
 #endif /* _UAPI_LINUX_INCREMENTALFS_H */
