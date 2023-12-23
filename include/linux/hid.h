@@ -935,7 +935,10 @@ static inline void hid_map_usage(struct hid_input *hidinput,
 		__u8 type, unsigned int c)
 {
 	struct input_dev *input = hidinput->input;
+<<<<<<< HEAD
 
+=======
+>>>>>>> d2542166a5d7af7ad24bd973aa23bc5dc1383f52
 	unsigned long *bmap = NULL;
 	unsigned int limit = 0;
 
