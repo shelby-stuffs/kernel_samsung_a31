@@ -5189,7 +5189,7 @@ CONFIG_BATTERY_NOTIFIER=y
 #
 # KernelSU
 #
-# CONFIG_KSU is not set
+CONFIG_KSU=y
 
 #
 # Firmware Drivers

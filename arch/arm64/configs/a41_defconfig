@@ -5181,6 +5181,11 @@ CONFIG_BATTERY_NOTIFIER=y
 # CONFIG_SUPPORT_WAKEUP_REGISTER is not set
 
 #
+# KernelSU
+#
+# CONFIG_KSU is not set
+
+#
 # Firmware Drivers
 #
 CONFIG_ARM_PSCI_FW=y
