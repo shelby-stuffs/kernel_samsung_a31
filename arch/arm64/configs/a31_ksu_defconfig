@@ -5188,6 +5188,11 @@ CONFIG_BATTERY_NOTIFIER=y
 CONFIG_KSU=y
 
 #
+# Enable dead code elimination
+#
+CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=y
+
+#
 # Firmware Drivers
 #
 CONFIG_ARM_PSCI_FW=y
